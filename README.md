@@ -1,5 +1,5 @@
 # proxysql + etcd + mysql percona xtradb cluster 5.7 in swarm mode
-
+Deploy in swarm mode a proxysql load balancer container, etcd for service discovery and some pecona xtradb cluster for mysql 5.7.
 
 
 ## deploy on current node (for testing purpose)
@@ -10,9 +10,26 @@ docker-compose up
 
 ## deploy in swarm mode
 
+deploy stack:
 ```
 docker stack deploy -c docker-compose.yml galera
 ```
+
+ps stack:
+```
+docker stack ps galera
+```
+
+stop stack:
+```
+docker stack rm galera
+```
+
+
+
+
+
+
 
 ----
 
