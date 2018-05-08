@@ -1,7 +1,5 @@
 # proxysql + etcd + mysql percona xtradb cluster 5.7 in swarm mode
 
-see: https://www.percona.com/blog/2016/06/14/scaling-percona-xtradb-cluster-proxysql-docker-swarm/
-see: https://xinity.github.io/Percona-PXC-Swarm-mode/
 
 
 ## deploy on current node (for testing purpose)
