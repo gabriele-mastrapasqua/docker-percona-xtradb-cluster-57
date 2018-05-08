@@ -8,7 +8,7 @@ Deploy in swarm mode a proxysql load balancer container, etcd for service discov
 docker-compose up
 ```
 
-## deploy in swarm mode
+## deploy in swarm mode (from manager node)
 
 deploy stack:
 ```
