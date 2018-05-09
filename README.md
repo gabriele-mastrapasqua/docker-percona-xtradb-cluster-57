@@ -1,5 +1,6 @@
 # proxysql + etcd + mysql percona xtradb cluster 5.7 in swarm mode
 Deploy in swarm mode a proxysql load balancer container, etcd for service discovery and some pecona xtradb cluster for mysql 5.7.
+docker swarm will create a overlay network for this stack.
 
 
 ## deploy on current node (for testing purpose)
@@ -66,32 +67,44 @@ docker exec -it percona-xtradb-cluster-57_proxy_1 add_cluster_nodes.sh
 
 # Manage
 
-
-## 1) optional - get ip address of proxysql container to connect to the container with a mysql client
-```
-docker inspect -f '{{range .NetworkSettings.Networks}}[{{.IPAddress}}] {{end}}' percona-xtradb-cluster-57_proxy_1
-```
-
-- then connect to proxysql "admin interface" (6032):
-```
-mysql -u admin -padmin -h <IP_PROXYSQL> -P6032 --prompt='Admin> '
-```
-
-
-## 2) otherwise connect to proxysql container locally:
+## connect to proxysql container locally:
 ```
 docker exec -it percona-xtradb-cluster-57_proxy_1 bash
 ```
 
-- then connect to proxysql "admin interface" (6032) from the local container:
+
+- check if service discovery is working (from the local container):
 ```
-mysql -u admin -padmin -h 127.0.0.1 -P6032 --prompt='Admin> '
+curl http://$DISCOVERY_SERVICE/v2/keys/pxc-cluster/$CLUSTER_NAME/ | jq .
 ```
 
-- to show cluster connected to the proxysql manager:  
-
+it will respond with a list of galera services discovered:
 ```
-select * from stats.stats_mysql_connection_pool;
+{
+  "action": "get",
+  "node": {
+    "key": "/pxc-cluster/galera-15",
+    "dir": true,
+    "nodes": [
+      {
+        "key": "/pxc-cluster/galera-15/10.20.1.10",
+        "dir": true,
+        "expiration": "2018-05-09T14:36:42.36014648Z",
+        "ttl": 26,
+        "modifiedIndex": 9,
+        "createdIndex": 9
+      }
+    ],
+    "modifiedIndex": 5,
+    "createdIndex": 5
+  }
+}
+```
+
+
+- check if galera nodes are connected to proxysql "admin interface" (6032) (from the local container):
+```
+mysql -u admin -padmin -h 127.0.0.1 -P6032 --prompt='Admin> ' -e "select * from stats.stats_mysql_connection_pool";
 ```
 
 
@@ -103,13 +116,13 @@ docker exec -it percona-xtradb-cluster-57_proxy_1 mysql -u admin -padmin -h 127.
 
 
 
-- connect to proxysql mysql interface (3306):
+- connect to proxysql mysql interface (3306) (from the local container):
 
 ```
 mysql -P3306 -h127.0.0.1 -uproxyuser -ps3cr3TL33tPr0xyP@ssw0rd
 ```
 
-- test if balancing works (round robin of nodes):
+- check if balancing works (round robin of nodes):
 connect through proxysql balancer:
 
 ```
