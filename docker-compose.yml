@@ -59,6 +59,8 @@ services:
     networks:
       - galera
     env_file: galera.env
+    volumes:
+      - /var/lib/mysql-percona-cluster:/var/lib/mysql
     deploy:
       mode: global
       labels: [APP=pxc]
