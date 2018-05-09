@@ -57,7 +57,7 @@ ufw allow 4789/udp
 is mandatory to run this command to join nodes to proxysql:
 
 ```
-docker exec -it percona-xtradb-cluster-57_proxy_1 add_cluster_nodes.sh
+docker exec -it galera_proxy.1.$(docker service ps -f 'name=galera_proxy.1' galera_proxy -q --no-trunc | head -n1) add_cluster_nodes.sh
 ```
 
 ** Then after the adding of some nodes is possible to connect to proxysql through 3306.**
@@ -69,7 +69,7 @@ docker exec -it percona-xtradb-cluster-57_proxy_1 add_cluster_nodes.sh
 
 ## connect to proxysql container locally:
 ```
-docker exec -it percona-xtradb-cluster-57_proxy_1 bash
+docker exec -it galera_proxy.1.$(docker service ps -f 'name=galera_proxy.1' galera_proxy -q --no-trunc | head -n1) bash
 ```
 
 
@@ -111,7 +111,7 @@ mysql -u admin -padmin -h 127.0.0.1 -P6032 --prompt='Admin> ' -e "select * from 
 Also with this command:
 
 ```
-docker exec -it percona-xtradb-cluster-57_proxy_1 mysql -u admin -padmin -h 127.0.0.1 -P6032 --prompt='Admin> ' -e "select * from stats.stats_mysql_connection_pool;"
+docker exec -it galera_proxy.1.$(docker service ps -f 'name=galera_proxy.1' galera_proxy -q --no-trunc | head -n1) mysql -u admin -padmin -h 127.0.0.1 -P6032 --prompt='Admin> ' -e "select * from stats.stats_mysql_connection_pool;"
 ```
 
 
@@ -126,7 +126,7 @@ mysql -P3306 -h127.0.0.1 -uproxyuser -ps3cr3TL33tPr0xyP@ssw0rd
 connect through proxysql balancer:
 
 ```
-docker exec -it percona-xtradb-cluster-57_proxy_1 mysql -uproxyuser -ps3cr3TL33tPr0xyP@ssw0rd  -h 127.0.0.1  -P3306 -e "SELECT @@hostname"
+docker exec -it galera_proxy.1.$(docker service ps -f 'name=galera_proxy.1' galera_proxy -q --no-trunc | head -n1) mysql -uproxyuser -ps3cr3TL33tPr0xyP@ssw0rd  -h 127.0.0.1  -P3306 -e "SELECT @@hostname"
 ```
 
 

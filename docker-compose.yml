@@ -3,7 +3,7 @@ version: '3.1'
 services:
   
   # proxysql
-  proxy:
+  proxysql:
     image: perconalab/proxysql
     networks:
       # galera network is a private network where all containers in swarm can connect
