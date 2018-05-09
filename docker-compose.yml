@@ -41,6 +41,8 @@ services:
     image: quay.io/coreos/etcd
     command:  etcd
     volumes:
+      # note: to test on windows change the path to this
+      #- ./usr/share/ca-certificates/:/etc/ssl/certs
       - /usr/share/ca-certificates/:/etc/ssl/certs
     env_file: etcd.env
     networks:

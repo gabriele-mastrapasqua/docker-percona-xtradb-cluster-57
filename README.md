@@ -25,25 +25,41 @@ stop stack:
 docker stack rm galera
 ```
 
+----
 
+## firewall setup for swarm mode and overlay networks
+Open ports for service discovery on overlay networks on swarm mode:
+See: https://docs.docker.com/network/overlay/#publish-ports
 
+- on manager node:
+```
+ufw allow 22/tcp
+ufw allow 2376/tcp
+ufw allow 2377/tcp
+ufw allow 7946/tcp
+ufw allow 7946/udp
+ufw allow 4789/udp
+```
 
-
-
+- on worker nodes:
+```
+ufw allow 22/tcp
+ufw allow 2376/tcp
+ufw allow 7946/tcp 
+ufw allow 7946/udp 
+ufw allow 4789/udp 
+```
 
 ----
 
 ## add cluster nodes to proxysql container
+is mandatory to run this command to join nodes to proxysql:
 
 ```
 docker exec -it percona-xtradb-cluster-57_proxy_1 add_cluster_nodes.sh
 ```
 
 ** Then after the adding of some nodes is possible to connect to proxysql through 3306.**
-
-Note: without adding any mysql worker node to proxysql it's not possible to connect to mysql proxysql.
-
-
 
 
 ----
