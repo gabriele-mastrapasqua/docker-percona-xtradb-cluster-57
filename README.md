@@ -1,6 +1,7 @@
 # mysql cluster percona xtradb 5.7 + proxysql + etcd in swarm mode
 Deploy in swarm mode a proxysql load balancer container, etcd for service discovery and some pecona xtradb cluster for mysql 5.7.
 docker swarm will create a overlay network for this stack.
+
 On the manager it will deploy etcd and proxysql for external access on port 3306 to the mysql cluster, on worker nodes it will deploy percona xtradb.
 
 
