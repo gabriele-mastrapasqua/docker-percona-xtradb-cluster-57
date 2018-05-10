@@ -133,21 +133,16 @@ docker exec -it galera_proxysql.1.$(docker service ps -f 'name=galera_proxysql.1
 
 ---- 
 
-## scale mysql replication:
+## scale mysql replication (on manager): 
+
 ```
 docker-compose scale percona-xtradb-cluster=3
 ```
 
-
-
 ----
 
-# sample init sql:
-```
--- create database test;
--- use test
--- create table if not exists user (id int auto_increment, nome varchar(256), primary key (id) );
--- insert into user values(1, "pippo"), (2, "pluto");
-select * from user;
-```
+## import an init.sql
 
+```
+docker exec -it galera_proxysql.1.$(docker service ps -f 'name=galera_proxysql.1' galera_proxysql -q --no-trunc | head -n1) mysql -uproxyuser -ps3cr3TL33tPr0xyP@ssw0rd  -h 127.0.0.1  -P3306 < init.sql
+```
