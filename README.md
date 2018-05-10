@@ -144,5 +144,7 @@ docker-compose scale percona-xtradb-cluster=3
 ## import an init.sql
 
 ```
-docker exec -it galera_proxysql.1.$(docker service ps -f 'name=galera_proxysql.1' galera_proxysql -q --no-trunc | head -n1) mysql -uproxyuser -ps3cr3TL33tPr0xyP@ssw0rd  -h 127.0.0.1  -P3306 < init.sql
+docker exec -it galera_proxysql.1.$(docker service ps -f 'name=galera_proxysql.1' galera_proxysql -q --no-trunc | head -n1) mysql -uproxyuser -ps3cr3TL33tPr0xyP@ssw0rd  -h 127.0.0.1  -P3306
+
+# then insert some test data from init.sql
 ```
